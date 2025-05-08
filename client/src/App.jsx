@@ -1,14 +1,18 @@
 
 
-import { Button } from './components/ui/button'
+import { Route, Routes } from 'react-router-dom'
+
+import AuthPage from './pages/auth'
 
 function App() {
 
 
   return (
     <>
-     
-     <Button className='ml-5 mt-5 cursor-pointer' >Click</Button>
+     <Routes>
+      <Route path='/auth' element={<AuthPage />} />
+        
+     </Routes>
      
     </>
   )
