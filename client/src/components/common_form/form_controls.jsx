@@ -1,24 +1,32 @@
 
 
 import { Input } from "../ui/input";
-import { Label } from"../ui/label";
-import { Select, SelectTrigger, SelectValue, SelectItem, } from"../ui/select";
+import { Label } from "../ui/label";
+import { Select, SelectTrigger, SelectValue, SelectItem, } from "../ui/select";
 
 
 export default function FormControls({ formControls = [], formData, setFormData }) {
 
     let element = null;
 
-    function renderComponentByType(getControlItem) {
+    //form data -> {userName: "", email: "", password: ""} Context -> {signInFormData, signUpFormData}
 
+    //formControls -> [{name: "userName", label: "UserName", placeholder: "Enter your username", type: "text", componentType: "input"}, {...}]
+
+    function renderComponentByType(getControlItem) {
+        const currentControlItemValue = formData[getControlItem.name] || ""
         if (getControlItem.componentType === "input") {
             element = <Input
                 id={getControlItem.name}
                 type={getControlItem.type}
-                name={getControlItem.name}
+                name={getControlItem.name } //when submit,in the url it can be used as a key to get the value
                 placeholder={getControlItem.placeholder}
-            // value={formData[getControlItem.name]}
-            // onChange={(e) => setFormData({...formData, [getControlItem.name]: e.target.value})}
+                value={currentControlItemValue}
+                onChange={(event) => setFormData({
+                    ...formData,
+                    [getControlItem.name]: event.target.value
+                })}
+
             />
             return element
         }
@@ -26,7 +34,14 @@ export default function FormControls({ formControls = [], formData, setFormData 
 
         else if (getControlItem.componentType === "select") {
             element =
-                <Select>
+                <Select
+                    onValueChange={(value) => setFormData({
+                        ...formData,
+                        [getControlItem.name]: value
+
+                    })}
+                    value={currentControlItemValue}
+                >
                     <SelectTrigger className="w-full">
                         <SelectValue placeholder={getControlItem.label} />
                     </SelectTrigger>
@@ -49,9 +64,9 @@ export default function FormControls({ formControls = [], formData, setFormData 
             element = <Input
                 id={getControlItem.name}
                 name={getControlItem.name}
-                placeholder={getControlItem.placeholder} 
+                placeholder={getControlItem.placeholder}
                 type={getControlItem.type}
-            // value={formData[getControlItem.name]}
+                value={currentControlItemValue}
             // onChange={(e) => setFormData({...formData, [getControlItem.name]: e.target.value})}
             />
             return element
@@ -67,7 +82,7 @@ export default function FormControls({ formControls = [], formData, setFormData 
                     <Label htmlFor={controlItem.name} className='mb-1'>{controlItem.label}</Label>
                     {
                         renderComponentByType(controlItem)
-                        
+
                     }
                 </div>
             )}
