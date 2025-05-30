@@ -32,12 +32,15 @@ const registerUser = async (req, res) => {
         })
 
         const {password:_, ...user} = newUser._doc
+        console.log(user)
 
         return res.status(201).json({
             success: true,
             message: 'User created successfully',
             user
         })
+
+     
     }
     catch(err){
         console.log(err)
@@ -51,6 +54,33 @@ const registerUser = async (req, res) => {
 }
 
 const loginUser = async (req, res) => {
+    const {userEmail, password} = req.body;
+    
+    const findUser = await User.findOne({userEmail})
+
+    if(!findUser){
+        return res.status(400).json({
+            success: false,
+            message: 'User not found'
+        })
+    }
+
+    const isPasswordValid =  bcrypt.compare(password, findUser.password)
+
+    if(!isPasswordValid){
+        return res.status(400).json({
+            success : false,
+            message : 'invalid password'
+        })
+    }
+
+    const {password:_, ...user} = findUser._doc;
+    console.log(user)
+    return res.status(200).json({
+        success: true,
+        message: 'user logged in successfully',
+        user
+    })
 }
 
-module.exports = registerUser, loginUser;
+module.exports = {registerUser, loginUser};

@@ -10,7 +10,7 @@ app.use(express.json()); // Parse JSON bodies
 const auth_route = require('./routes/auth_route')
 
 app.use(cors({
-    origin:"http://localhost:5173/",
+    origin:"http://localhost:5173",
     credentials:true,
     allowedHeaders: ['Content-Type', 'Authorization']
 }))

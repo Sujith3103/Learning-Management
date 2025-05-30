@@ -9,7 +9,7 @@
 
     export default function AuthPage() {
 
-        const { signInFormData, signUpFormData, setSignInFormData, setSignUpFormData } = useContext(AuthContext)
+        const { signInFormData, signUpFormData, setSignInFormData, setSignUpFormData,handleRegisterUser } = useContext(AuthContext)
         const [activeTab, setActiveTab] = useState("signin")
 
         console.log(signInFormData)
@@ -62,6 +62,7 @@
                                     formData={signInFormData}
                                     setFormData={setSignInFormData}
                                     // isButtonDisabled={handleButtonDisabled()}
+                                    
                                 />
                             </CardContent>
                         </Card>
@@ -82,6 +83,7 @@
                                     formData={signUpFormData}
                                     setFormData={setSignUpFormData}
                                     // isButtonDisabled={handleButtonDisabled()}
+                                    handleSubmit={handleRegisterUser}
                                 />
                             </CardContent>
                         </Card>
