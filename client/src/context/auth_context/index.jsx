@@ -3,10 +3,7 @@ import { registerService } from "@/services";
 import { createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
-
 export const AuthContext = createContext(null)
-
 
 export default function AuthProvider({ children }) {
 
