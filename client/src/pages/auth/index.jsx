@@ -12,7 +12,7 @@
         const { signInFormData, signUpFormData, setSignInFormData, setSignUpFormData,handleRegisterUser } = useContext(AuthContext)
         const [activeTab, setActiveTab] = useState("signin")
 
-        console.log(signInFormData)
+        // console.log("Sign in data: ",signInFormData)
 
         const handleValueChange = () => {
             setActiveTab(activeTab === "signin" ? "signup" : "signin")

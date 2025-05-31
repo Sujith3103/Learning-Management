@@ -74,6 +74,7 @@ const loginUser = async (req, res) => {
         })
     }
     
+    console.log("User found : ", findUser)
     const {password:_, ...user} = findUser._doc;
     console.log(user)
 
@@ -81,6 +82,7 @@ const loginUser = async (req, res) => {
         id: user._id,
         userName: user.userName,
         userEmail: user.userEmail,
+        role: user.role
     },process.env.JWT_SECRET, { expiresIn: '120m'})
 
     return res.status(200).json({

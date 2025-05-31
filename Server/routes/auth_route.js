@@ -7,7 +7,7 @@ const { authenticateMiddleware } = require('../middleware/auth_middleware');
 
 router.post('/register', registerUser);
 router.post('/login', loginUser)
-router.post('/check-auth',authenticateMiddleware, (req,res) => {
+router.get('/check-auth',authenticateMiddleware, (req,res) => {
 
     const user = req.user;
 
