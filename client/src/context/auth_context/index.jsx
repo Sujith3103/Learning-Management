@@ -12,23 +12,33 @@ export default function AuthProvider({ children }) {
 
     const [signInFormData, setSignInFormData] = useState(initialSignInFormData)
     const [signUpFormData, setSignUpFormData] = useState(initialSignUpFormData)
-    const [auth,setAuth] = useState({
+    const [auth, setAuth] = useState({
         isAuthenticated: false,
         user: null,
         accessToken: null
     })
 
     const handleUserAuth = async () => {
-        const {data} = await server.get('/auth/check-auth')
+        const { data } = await server.get('/auth/check-auth')
 
+        if (data.success) {
+            setAuth({
+                isAuthenticated: true,
+                user: data.data.user,
+                accessToken: data.data.accessToken
+            })
+
+            console.log("User Authenticated")
+            // sessionStorage.setItem('accessToken', data.data.accessToken) this mf when navigating to other pages, the access token becomes undifined
+        }
         console.log("Auth Data: ", data)
-        
+
 
     }
 
     useEffect(() => {
         handleUserAuth()
-    },[])
+    }, [])
 
 
     // const handleRegisterUser = async(e) => {
@@ -39,6 +49,6 @@ export default function AuthProvider({ children }) {
     //     data.success? navigate('/auth', { state: { show: 'signin' } })  : alert(data.message)
     // }   
 
-    return <AuthContext.Provider value={{signInFormData,signUpFormData,setSignInFormData,setSignUpFormData,auth,setAuth}}>{children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{ signInFormData, signUpFormData, setSignInFormData, setSignUpFormData, auth, setAuth }}>{children}</AuthContext.Provider>
 
 }       

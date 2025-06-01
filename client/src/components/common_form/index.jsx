@@ -29,7 +29,7 @@ export default function CommonForm({ handleSubmit, buttonText, formControls = []
         console.log("Data : ", data.data.user)
 
         if (data.success) {
-          navigate('/')
+          
           sessionStorage.setItem('accessToken',data.data.accessToken)
           
           setAuth({
