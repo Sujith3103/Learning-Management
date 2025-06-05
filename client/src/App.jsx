@@ -7,6 +7,7 @@ import RouteGuard from './components/route_guard'
 import InstructorView from './pages/instructor'
 import StudentViewCommonLayout from './components/student_view/common_layout'
 import StudentHomePage from './pages/student/home'
+import NotFound from './pages/notfound'
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="" element={<StudentHomePage />} />
           <Route path="home" element={<StudentHomePage />} />
         </Route>
+        <Route path='*' element={<NotFound />} />
       </Routes>
 
     </>

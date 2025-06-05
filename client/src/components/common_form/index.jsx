@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import FormControls from "./form_controls";
 import server from "@/api/axiosInstance";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { set } from "mongoose";
 import { AuthContext } from "@/context/auth_context";
 
@@ -17,6 +17,9 @@ export default function CommonForm({ handleSubmit, buttonText, formControls = []
 
     if (context === "signup") {
       const { data } = await server.post('/auth/register', formData)
+      if( data.success) {
+        window.location.reload();
+      }
       console.log("Data : ", data)
 
     }
