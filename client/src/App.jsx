@@ -8,7 +8,8 @@ import StudentViewCommonLayout from './components/student_view/common_layout'
 import StudentHomePage from './pages/student/home'
 import NotFound from './pages/notfound'
 import InstructorDashBoardPage from './pages/instructor'
-import Add_New_Course from './pages/instructor/add_new_course'
+import AddNewCoursePage from './pages/instructor/add_new_course'
+
 
 function App() {
 
@@ -18,7 +19,7 @@ function App() {
       <Routes>
         <Route path='/auth' element={<RouteGuard element={<AuthPage />} />} />
         <Route path='/instructor' element={<RouteGuard element={<InstructorDashBoardPage />} />} />
-        <Route path='/instructor/create-new-course' element={<RouteGuard element={<Add_New_Course />} />} />
+        <Route path='/instructor/create-new-course' element={<RouteGuard element={<AddNewCoursePage />} />} />
         <Route path='/' element={<RouteGuard element={<StudentViewCommonLayout />} />}>
           <Route path="" element={<StudentHomePage />} />
           <Route path="home" element={<StudentHomePage />} />

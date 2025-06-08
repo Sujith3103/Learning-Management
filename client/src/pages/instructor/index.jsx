@@ -17,7 +17,7 @@ const InstructorDashBoardPage = () => {
     },
     {
       icon: Book,
-      label: 'Courses',
+      label: 'Courses', 
       value: 'courses',
       component: <InstructorCourses />,
     },
