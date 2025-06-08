@@ -2,7 +2,7 @@
 
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { Select, SelectTrigger, SelectValue, SelectItem, } from "../ui/select";
+import { Select, SelectTrigger, SelectValue, SelectItem, SelectContent, } from "../ui/select";
 
 
 export default function FormControls({ formControls = [], formData, setFormData }) {

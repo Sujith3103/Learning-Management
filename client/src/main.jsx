@@ -4,12 +4,15 @@ import './index.css'
 import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import AuthProvider from './context/auth_context'
+import InstructorProvider from './context/instructor_context'
 
 createRoot(document.getElementById('root')).render(
 
   <BrowserRouter>
     <AuthProvider>
-      <App />
+      <InstructorProvider>
+        <App />
+      </InstructorProvider>
     </AuthProvider>
   </BrowserRouter>
 
@@ -17,4 +20,4 @@ createRoot(document.getElementById('root')).render(
 )
 
 { document.documentElement.style.setProperty('--primary', 'oklch(0.205 0 0)') }
-{ document.documentElement.style.setProperty(' --secondary', 'oklch(0.97 0 0)') }
+{ document.documentElement.style.setProperty('--secondary', 'oklch(0.97 0 0)') }
