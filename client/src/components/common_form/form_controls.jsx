@@ -41,6 +41,7 @@ export default function FormControls({ formControls = [], formData, setFormData 
 
                     })}
                     value={currentControlItemValue}
+                    
                 >
                     <SelectTrigger className="w-full">
                         <SelectValue placeholder={getControlItem.label} />
@@ -67,6 +68,10 @@ export default function FormControls({ formControls = [], formData, setFormData 
                 placeholder={getControlItem.placeholder}
                 type={getControlItem.type}
                 value={currentControlItemValue}
+                onChange={(event) => setFormData({
+                    ...formData,
+                    [getControlItem.name]: event.target.value
+                })}
             // onChange={(e) => setFormData({...formData, [getControlItem.name]: e.target.value})}
             />
             return element
