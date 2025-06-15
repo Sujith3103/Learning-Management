@@ -8,6 +8,7 @@ app.use(express.json()); // Parse JSON bodies
 
 // Routes
 const auth_route = require('./routes/auth_route')
+const mediaRoute = require('./routes/instructor_routes/media_route')
 
 app.use(cors({
     origin:"http://localhost:5173",
@@ -15,12 +16,17 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization']
 }))
 
+app.use('/api/auth', auth_route)
+app.use('/api/media', mediaRoute)
+
+
+   
+
+
+
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {console.log("connected to mongoose")})
     .catch((err) => { console.log(err)  })
-   
-app.use('/api/auth', auth_route)
-
 
 app.listen(8800, () => {
     console.log("Server is running")
