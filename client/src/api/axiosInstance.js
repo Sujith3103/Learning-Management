@@ -9,7 +9,7 @@ server.interceptors.request.use(config => {
   
   if(accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
-    console.log("Access Token set in request headers:", accessToken);
+    // console.log("Access Token set in request headers:", accessToken);
   }
 
   return config;
