@@ -9,7 +9,8 @@ import StudentHomePage from './pages/student/home'
 import NotFound from './pages/notfound'
 import InstructorDashBoardPage from './pages/instructor'
 import AddNewCoursePage from './pages/instructor/add_new_course'
-
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
 
@@ -26,7 +27,14 @@ function App() {
         </Route>
         <Route path='*' element={<NotFound />} />
       </Routes>
-
+      <ToastContainer
+        // toastClassName={() => 'primary'}
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+      />
     </>
   )
 }

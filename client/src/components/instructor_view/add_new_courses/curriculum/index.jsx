@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { InstructorContext } from '@/context/instructor_context'
 import React, { useContext } from 'react'
+import { toast } from 'react-toastify'
 
 const CourseCurriculum = () => {
 
@@ -40,7 +41,7 @@ const CourseCurriculum = () => {
 
   }
 
-  const updateLectureFields = (index,value) => {
+  const updateLectureFields = (index, value) => {
     setCourseCurriculumFormData(prev => {
       const updated = [...prev]
 
@@ -60,20 +61,43 @@ const CourseCurriculum = () => {
       const videoFormData = new FormData
       videoFormData.append('file', selectedFile)
 
+      const toastId = toast.info('Uploading...', {
+        progress: 0,
+        autoClose: false,
+        closeOnClick: false,
+        draggable: false
+      })
 
       try {
 
-        const response = await server.post('/media/upload', videoFormData)
-        console.log(response.data.data)
+        const response = await server.post('/media/upload', videoFormData, {
+          onUploadProgress: (ProgressEvent) => {
+            const percent = Math.round((ProgressEvent.loaded * 100) / ProgressEvent.total)
+            toast.update(toastId, {
+              render: `Uploading... ${percent}%`,
+              // the progress bar
+              progress: percent / 100
+            })
+          }
+        })
+
         if (response.data.success) {
           updateLectureFields(index, {
             public_id: response.data.data.public_id,
             videoUrl: response.data.data.url
           })
+          toast.success('Upload successful ✅')
+          toast.dismiss(toastId)
         }
+
 
       } catch (err) {
         console.log(err)
+        toast.update(toastId, {
+          render: 'Upload failed ❌',
+          type: toast.TYPE.ERROR,
+          autoClose: 3000
+        })
       }
     }
   }
