@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
+import VideoPlayer from '@/components/video_player'
 import { InstructorContext } from '@/context/instructor_context'
 import React, { useContext } from 'react'
 import { toast } from 'react-toastify'
@@ -134,7 +135,21 @@ const CourseCurriculum = () => {
               </CardTitle>
               <CardContent>
 
-                <Input type='file' accept='video/*' onChange={event => handleVideoInput(event, index)} />
+                {
+                  courseCurriculumFormData[index]?.videoUrl ?
+                    <div className="flex items-start">
+                      <div className="w-[50%]">
+                        <VideoPlayer url={courseCurriculumFormData[index]?.videoUrl} />
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <Button variant="outline">Replace Video</Button>
+                        <Button variant="destructive">Delete Lecture</Button>
+                      </div>
+                    </div>
+                    :
+                    <Input type='file' accept='video/*' onChange={event => handleVideoInput(event, index)} />
+                }
+                {console.log("Video url,", courseCurriculumFormData[index]?.videoUrl)}
 
               </CardContent>
             </Card>)
