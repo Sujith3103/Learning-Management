@@ -9,6 +9,7 @@ app.use(express.json()); // Parse JSON bodies
 // Routes
 const auth_route = require('./routes/auth_route')
 const mediaRoute = require('./routes/instructor_routes/media_route')
+const courseRoute = require('./routes/instructor_routes/course_route')
 
 app.use(cors({
     origin:"http://localhost:5173",
@@ -18,7 +19,7 @@ app.use(cors({
 
 app.use('/api/auth', auth_route)
 app.use('/api/media', mediaRoute)
-
+app.use('/api/course', courseRoute)
 
    
 
