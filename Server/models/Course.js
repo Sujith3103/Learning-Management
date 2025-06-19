@@ -1,36 +1,32 @@
 const mongoose = require('mongoose');
 
-const LectureSchema = new mongoose.Schema({
-    title : String,
-    videoUrl : String,
-    freePreview : Boolean,
-    public_id : String
-})
+const courseSchema = new mongoose.Schema({
+  title: String,
+  category: String,
+  level: String,
+  primaryLanguage: String,
+  subtitle: String,
+  description: String,
+  pricing: Number,
+  objectives: [String],
+  welcomeMessage: String,
+  image: String,
 
-const CourseSchema = new mongoose({
-    instructorId : String,
-    instructorName: String,
-    data: Date,
-    title : String,
-    category : String,
-    level : String,
-    primaryLanguage : String,
-    subtitle : String,
-    drscription : String,
-    image : String,
-    welcomeMessage : String,
-    pricing : Number,
-    objectives : String,
-    students : [
-        {
-            studentId: String,
-            studentName: String,
-            studentEmail: String
-        }
-    ],
-    curriculum : [LectureSchema],
-    isPublished : Boolean
+  instructor: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },    
 
-})
+  lectures: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Lecture'
+  }],
 
-module.exports = mongoose.model('Course',CourseSchema)
+  students: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }]
+}, { timestamps: true });
+
+module.exports = mongoose.model('Course', courseSchema);
