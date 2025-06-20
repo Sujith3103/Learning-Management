@@ -1,6 +1,6 @@
 import server from "@/api/axiosInstance";
 import { Skeleton } from "@/components/ui/skeleton";
-import { initialSignInFormData, initialSignUpFormData } from "@/config";
+import { initialCourseData, initialSignInFormData, initialSignUpFormData } from "@/config";
 import { registerService } from "@/services";
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +11,8 @@ export default function AuthProvider({ children }) {
 
     const [signInFormData, setSignInFormData] = useState(initialSignInFormData)
     const [signUpFormData, setSignUpFormData] = useState(initialSignUpFormData)
+
+
     const [auth, setAuth] = useState({
         isAuthenticated: false,
         user: null,

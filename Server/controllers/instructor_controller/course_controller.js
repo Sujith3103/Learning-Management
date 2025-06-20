@@ -2,6 +2,7 @@ const { authenticateMiddleware } = require("../../middleware/auth_middleware")
 const Course = require("../../models/Course")
 const Lecture_ = require("../../models/Lecture")
 const User = require("../../models/User")
+
 const addNewCourse = async (req, res) => {
   try {
     console.log("user in course controller : ", req.user);
@@ -62,6 +63,23 @@ const getCourseDetails = async(req,res) => {
 const getAllCoursesById = async(req,res) => {
     try{
 
+      const userId = req.user.id
+      const courseData = await Course.find({instructor : userId})
+
+      const updatedData = courseData.map((data) => (
+        {
+          title: data.title,
+          pricing: data.pricing,
+          students: [...data.students]
+        }
+      ))
+
+     res.status(200).json({
+      success: true,
+      message:"fetched the courses of instructor",
+      data: updatedData
+      
+     })
     }catch(err){
         console.log(err)
         res.status(500).json({

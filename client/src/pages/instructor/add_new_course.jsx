@@ -6,13 +6,16 @@ import { TabsContent } from '@radix-ui/react-tabs'
 import { Loader } from 'lucide-react'
 import { InstructorContext } from '@/context/instructor_context'
 import { addNewCourse } from '@/services/instructor_services/inedx'
+import { useNavigate } from 'react-router-dom'
 
 // Lazy loaded components
 const LazyCourseLanding = lazy(() => import('@/components/instructor_view/add_new_courses/course_landing'))
 const LazyCourseSetting = lazy(() => import('@/components/instructor_view/add_new_courses/course_setting'))
 const LazyCourseCurriculum = lazy(() => import('@/components/instructor_view/add_new_courses/curriculum'))
 
-const AddNewCoursePage = () => {
+const AddNewCoursePage = () => { 
+
+  const navigate = useNavigate()
 
   const { courseLandingFormData, setCourseLandingFormData } = useContext(InstructorContext)
   const { courseCurriculumFormData, setCourseCurriculumFormData } = useContext(InstructorContext)
@@ -57,6 +60,7 @@ const AddNewCoursePage = () => {
     }
 
     addNewCourse(submit_Data)
+    navigate(-1)
 
     console.log(submit_Data)
 

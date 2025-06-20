@@ -175,6 +175,14 @@ export const courseCurriculumInitialFormData = [
   },
 ];
 
+export const initialCourseData = [
+  {
+    title : "",
+    students : [],
+    revenue: "",
+  }
+]
+
 export const sortOptions = [
   { id: "price-lowtohigh", label: "Price: Low to High" },
   { id: "price-hightolow", label: "Price: High to Low" },

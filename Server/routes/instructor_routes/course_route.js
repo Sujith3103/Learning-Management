@@ -6,7 +6,7 @@ const { authenticateMiddleware } = require('../../middleware/auth_middleware')
 const router = express.Router()
 
 router.post('/add',authenticateMiddleware, addNewCourse)
-router.get('/get/:id', getAllCoursesById)
+router.get('/get',authenticateMiddleware,getAllCoursesById)
 router.get('/get/details/:id', getCourseDetails)
 router.put('/update', updateCourseById)
 
