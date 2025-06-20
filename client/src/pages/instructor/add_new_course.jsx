@@ -1,19 +1,19 @@
-import React, { lazy, Suspense, useContext } from 'react'
+import React, { lazy, Suspense, useContext, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { TabsContent } from '@radix-ui/react-tabs'
 import { Loader } from 'lucide-react'
 import { InstructorContext } from '@/context/instructor_context'
-import { addNewCourse } from '@/services/instructor_services/inedx'
-import { useNavigate } from 'react-router-dom'
+import { addNewCourse, handleFetchCourseDetails } from '@/services/instructor_services/inedx'
+import { useNavigate, useParams } from 'react-router-dom'
 
 // Lazy loaded components
 const LazyCourseLanding = lazy(() => import('@/components/instructor_view/add_new_courses/course_landing'))
 const LazyCourseSetting = lazy(() => import('@/components/instructor_view/add_new_courses/course_setting'))
 const LazyCourseCurriculum = lazy(() => import('@/components/instructor_view/add_new_courses/curriculum'))
 
-const AddNewCoursePage = () => { 
+const AddNewCoursePage = () => {
 
   const navigate = useNavigate()
 
@@ -30,33 +30,33 @@ const AddNewCoursePage = () => {
   }
 
   function validFormDate() {
-    
-    for(const key in courseLandingFormData){
-      if(isEmpty(courseLandingFormData[key])){
+
+    for (const key in courseLandingFormData) {
+      if (isEmpty(courseLandingFormData[key])) {
         return false
       }
     }
 
     let isFreePreview = false
 
-    for(const item of courseCurriculumFormData){
-      if(isEmpty(item.title) || isEmpty(item.videoUrl) || isEmpty(item.public_id)){
+    for (const item of courseCurriculumFormData) {
+      if (isEmpty(item.title) || isEmpty(item.videoUrl) || isEmpty(item.public_id)) {
         return false
       }
-      
-      if(item.freePreview){
+
+      if (item.freePreview) {
         isFreePreview = true
       }
     }
 
     return true
   }
-  
+
   const handleSubmit = () => {
 
     const submit_Data = {
       ...courseLandingFormData,
-      Lecture : [...courseCurriculumFormData]
+      Lecture: [...courseCurriculumFormData]
     }
 
     addNewCourse(submit_Data)
@@ -86,11 +86,23 @@ const AddNewCoursePage = () => {
     }
   ]
 
+
+
+const { id } = useParams();
+
+useEffect(() => {
+  if (id) {
+    console.log("id : ",id)
+    handleFetchCourseDetails({id, setCourseCurriculumFormData, setCourseLandingFormData});
+  }
+}, []); // add id as dependency
+
+
   return (
     <div className='container px-6 pt-3 '>
       <header className='flex p-5 justify-between items-center border-t'>
         <h1 className='text-3xl font-bold'>Create New Course</h1>
-        <Button disabled={!validFormDate()} onClick = {handleSubmit} className='px-10 tracking-wider'>SUBMIT</Button>
+        <Button disabled={!validFormDate()} onClick={handleSubmit} className='px-10 tracking-wider'>SUBMIT</Button>
       </header>
 
       <Card className='mt-3'>

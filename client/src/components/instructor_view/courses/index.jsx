@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { InstructorContext } from '@/context/instructor_context'
+import { handleFetchCourseDetails } from '@/services/instructor_services/inedx'
 import { Edit, Trash, Trash2 } from 'lucide-react'
 import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -30,19 +31,8 @@ const InstructorCourses = () => {
   const handleEdit = async(id) => {
     navigate(`/instructor/edit-course/${id}`)
 
-    const response = await server.get(`/course/get/details/${id}`)
-    console.log(response.data)
-    if(response.data.success){
-      const curriculumData = response.data.data.lectures;
-
-      // for(const key in courseCurriculumFormData){
-      //   courseCurriculumFormData[key] = curriculumData[key]
-      // } 
-
-      setCourseLandingFormData(response.data.data)
-
-      setCourseCurriculumFormData(curriculumData)
-    }
+    handleFetchCourseDetails(id)
+ 
   }
 
   useEffect(() => {
