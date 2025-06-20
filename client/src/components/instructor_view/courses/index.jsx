@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 
 const InstructorCourses = () => {
 
-  const { courseData, setCourseData } = useContext(InstructorContext)
+  const { courseData, setCourseData,courseLandingFormData, setCourseLandingFormData,courseCurriculumFormData, setCourseCurriculumFormData } = useContext(InstructorContext)
 
   const navigate = useNavigate()
 
@@ -25,6 +25,24 @@ const InstructorCourses = () => {
       console.log("something wrong in fetching the courses : ", err)
     }
 
+  }
+
+  const handleEdit = async(id) => {
+    navigate(`/instructor/edit-course/${id}`)
+
+    const response = await server.get(`/course/get/details/${id}`)
+    console.log(response.data)
+    if(response.data.success){
+      const curriculumData = response.data.data.lectures;
+
+      // for(const key in courseCurriculumFormData){
+      //   courseCurriculumFormData[key] = curriculumData[key]
+      // } 
+
+      setCourseLandingFormData(response.data.data)
+
+      setCourseCurriculumFormData(curriculumData)
+    }
   }
 
   useEffect(() => {
@@ -57,7 +75,7 @@ const InstructorCourses = () => {
                   <TableCell className='pl-5'>${course.pricing}</TableCell>
                   <TableCell className='flex justify-end space-x-3 '>
                   <Trash2 />
-                  <Edit />
+                  <Edit onClick={() => handleEdit(course.id)}/>
                 </TableCell>
                 </TableRow>
               ))}

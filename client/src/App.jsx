@@ -21,6 +21,7 @@ function App() {
         <Route path='/auth' element={<RouteGuard element={<AuthPage />} />} />
         <Route path='/instructor' element={<RouteGuard element={<InstructorDashBoardPage />} />} />
         <Route path='/instructor/create-new-course' element={<RouteGuard element={<AddNewCoursePage />} />} />
+        <Route path='/instructor/edit-course/:id' element={<RouteGuard element={<AddNewCoursePage />} />} />
         <Route path='/' element={<RouteGuard element={<StudentViewCommonLayout />} />}>
           <Route path="" element={<StudentHomePage />} />
           <Route path="home" element={<StudentHomePage />} />

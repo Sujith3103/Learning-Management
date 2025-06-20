@@ -1,10 +1,13 @@
+import { InstructorContext } from '@/context/instructor_context'
 import { RotateCcw, RotateCw } from 'lucide-react'
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import ReactPlayer from 'react-player'
 
 const VideoPlayer = ({ url }) => {
 
+  const {courseLandingFormData, setCourseLandingFormData} = useContext(InstructorContext)
 
+  console.log(courseLandingFormData)
 
   const [progressValue, setProgressValue] = useState({})
   const playerRef = useRef()

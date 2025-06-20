@@ -1,5 +1,6 @@
 const { authenticateMiddleware } = require("../../middleware/auth_middleware")
-const Course = require("../../models/Course")
+const Course = require("../../models/Course");
+const Lecture = require("../../models/Lecture");
 const Lecture_ = require("../../models/Lecture")
 const User = require("../../models/User")
 
@@ -28,7 +29,7 @@ const addNewCourse = async (req, res) => {
     }
 
     savedCourse.lectures.push(...Lecture_Id);
-    await savedCourse.save(); 
+    await savedCourse.save();
 
     console.log("Final Course with lectures:", savedCourse);
 
@@ -49,55 +50,85 @@ const addNewCourse = async (req, res) => {
   }
 };
 
-const getCourseDetails = async(req,res) => {
-    try{
+const getCourseDetails = async (req, res) => {
 
-    }catch(err){
-        console.log(err)
-        res.status(500).json({
-            success : false,
-            message : "Error in "
-        })
+  const { id } = req.params
+
+  try {
+    const courseDetails = await Course.findById(id)
+
+    if (courseDetails) {
+
+      const lectureId = courseDetails.lectures
+      const lectureDetails = []
+
+      for (const item of lectureId) {
+        const fetched_lecture_details = await Lecture.findById(item)
+        lectureDetails.push(fetched_lecture_details)
+      }
+
+      const updatedCourseDetails = {
+        ...courseDetails.toObject(),
+        lectures: lectureDetails
+      }
+
+      console.log("Updated Course Details : ", updatedCourseDetails)
+
+      res.status(200).json({
+        success: true,
+        message: "course details fetched successfully",
+        data: updatedCourseDetails
+      })
     }
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({
+      success: false,
+      message: "Error in "
+    })
+  }
 }
-const getAllCoursesById = async(req,res) => {
-    try{
+const getAllCoursesById = async (req, res) => {
+  try {
 
-      const userId = req.user.id
-      const courseData = await Course.find({instructor : userId})
+    const userId = req.user.id
+    const courseData = await Course.find({ instructor: userId })
 
-      const updatedData = courseData.map((data) => (
-        {
-          title: data.title,
-          pricing: data.pricing,
-          students: [...data.students]
-        }
-      ))
+    const updatedData = courseData.map((data) => (
+      {
+        id: data.id,
+        title: data.title,
+        pricing: data.pricing,
+        students: [...data.students]
+      }
+    ))
 
-     res.status(200).json({
+    console.log(updatedData)
+
+    res.status(200).json({
       success: true,
-      message:"fetched the courses of instructor",
+      message: "fetched the courses of instructor",
       data: updatedData
-      
-     })
-    }catch(err){
-        console.log(err)
-        res.status(500).json({
-            success : false,
-            message : "Error in "
-        })
-    }
-}
-const updateCourseById = async(req,res) => {
-    try{
 
-    }catch(err){
-        console.log(err)
-        res.status(500).json({
-            success : false,
-            message : "Error in "
-        })
-    }
+    })
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({
+      success: false,
+      message: "Error in "
+    })
+  }
+}
+const updateCourseById = async (req, res) => {
+  try {
+
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({
+      success: false,
+      message: "Error in "
+    })
+  }
 }
 
-module.exports = {addNewCourse,getCourseDetails,getAllCoursesById,updateCourseById}
+module.exports = { addNewCourse, getCourseDetails, getAllCoursesById, updateCourseById }
