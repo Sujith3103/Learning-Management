@@ -5,6 +5,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { TabsContent } from '@radix-ui/react-tabs'
 import { Loader } from 'lucide-react'
 import { InstructorContext } from '@/context/instructor_context'
+import { addNewCourse } from '@/services/instructor_services/inedx'
 
 // Lazy loaded components
 const LazyCourseLanding = lazy(() => import('@/components/instructor_view/add_new_courses/course_landing'))
@@ -47,6 +48,21 @@ const AddNewCoursePage = () => {
 
     return true
   }
+  
+  const handleSubmit = () => {
+
+    const submit_Data = {
+      ...courseLandingFormData,
+      Lecture : [...courseCurriculumFormData]
+    }
+
+    addNewCourse(submit_Data)
+
+    console.log(submit_Data)
+
+  }
+
+
 
   const New_Course_Items = [
     {
@@ -70,7 +86,7 @@ const AddNewCoursePage = () => {
     <div className='container px-6 pt-3 '>
       <header className='flex p-5 justify-between items-center border-t'>
         <h1 className='text-3xl font-bold'>Create New Course</h1>
-        <Button disabled={!validFormDate()} className='px-10 tracking-wider'>SUBMIT</Button>
+        <Button disabled={!validFormDate()} onClick = {handleSubmit} className='px-10 tracking-wider'>SUBMIT</Button>
       </header>
 
       <Card className='mt-3'>

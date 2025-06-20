@@ -1,28 +1,53 @@
-const Course = require('../../models/Course')
+const { authenticateMiddleware } = require("../../middleware/auth_middleware")
+const Course = require("../../models/Course")
+const Lecture_ = require("../../models/Lecture")
+const User = require("../../models/User")
+const addNewCourse = async (req, res) => {
+  try {
+    console.log("user in course controller : ", req.user);
 
-const addNewCourse = async(req,res) => {
-    try{
-
-        const courseData = req.body   
-        const newlyCreatedCourse = new Course(courseData)
-        const savedCourse = await newlyCreatedCourse.save()
-
-        if(savedCourse){
-            res.status(200).json({
-                success: true,
-                message : "Course has been created successfully",
-                data:savedCourse
-            })
-        }
-
-    }catch(err){
-        console.log(err)
-        res.status(500).json({
-            success : false,
-            message : "Error in "
-        })
+    const userData = await User.findById(req.user.id);
+    if (!userData || userData.role !== "admin") {
+      return res.status(401).json({
+        message: "Unauthorized to create a course"
+      });
     }
-}
+
+    const { Lecture: LectureData, ...CourseData } = req.body;
+
+    CourseData.instructor = req.user.id;
+
+    const savedCourse = await Course.create(CourseData);
+
+    const Lecture_Id = [];
+
+    for (const item of LectureData) {
+      const lecture_data = await Lecture_.create(item);
+      Lecture_Id.push(lecture_data._id);
+    }
+
+    savedCourse.lectures.push(...Lecture_Id);
+    await savedCourse.save(); 
+
+    console.log("Final Course with lectures:", savedCourse);
+
+    res.status(200).json({
+      success: true,
+      message: "The Course was Created",
+      data: {
+        course: savedCourse
+      }
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: "Server Error while creating course"
+    });
+  }
+};
+
 const getCourseDetails = async(req,res) => {
     try{
 

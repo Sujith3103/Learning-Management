@@ -8,14 +8,13 @@ const courseSchema = new mongoose.Schema({
   subtitle: String,
   description: String,
   pricing: Number,
-  objectives: [String],
+  objectives: String,
   welcomeMessage: String,
   image: String,
 
   instructor: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true
   },    
 
   lectures: [{
