@@ -38,3 +38,4 @@ export const updateCourseDetails = async ({ id, submit_Data }) => {
 
     console.log(response)
 }   
+

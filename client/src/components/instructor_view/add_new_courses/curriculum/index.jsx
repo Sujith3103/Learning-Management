@@ -7,6 +7,8 @@ import { Switch } from '@/components/ui/switch'
 import VideoPlayer from '@/components/video_player'
 import { courseCurriculumInitialFormData } from '@/config'
 import { InstructorContext } from '@/context/instructor_context'
+import { UploadingToast } from '@/services/instructor_services/uploading_toast'
+import { Loader } from 'lucide-react'
 import React, { useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
@@ -14,8 +16,9 @@ const CourseCurriculum = () => {
 
 
   const { courseCurriculumFormData, setCourseCurriculumFormData } = useContext(InstructorContext)
-  const {courseLandingFormData, setCourseLandingFormData} = useContext(InstructorContext)
+  const { courseLandingFormData, setCourseLandingFormData } = useContext(InstructorContext)
   const [isDisabled, setIsDisabled] = useState(true)
+  const [isloading, setIsLoading] = useState(false)
 
   // const handleInput = (event,index) =>{
   //   const updatedData = [...courseCurriculumFormData];
@@ -56,13 +59,15 @@ const CourseCurriculum = () => {
   }
 
   const handleVideoInput = async (event, index) => {
+
+    setIsLoading(true)
     const selectedFile = event.target.files[0]
 
     if (selectedFile) {
       const videoFormData = new FormData
       videoFormData.append('file', selectedFile)
 
-      const toastId = toast.info('Uploading...', {
+      const toastId = toast.info(<UploadingToast />, {
         progress: 0,
         autoClose: false,
         closeOnClick: false,
@@ -71,16 +76,7 @@ const CourseCurriculum = () => {
 
       try {
 
-        const response = await server.post('/media/upload', videoFormData, {
-          onUploadProgress: (ProgressEvent) => {
-            const percent = Math.round((ProgressEvent.loaded * 100) / ProgressEvent.total)
-            toast.update(toastId, {
-              render: `Uploading... ${percent}%`,
-              // the progress bar
-              progress: percent / 100
-            })
-          }
-        })
+        const response = await server.post('/media/upload', videoFormData)
 
         if (response.data.success) {
           updateLectureFields(index, {
@@ -90,7 +86,7 @@ const CourseCurriculum = () => {
           toast.success('Upload successful ✅')
           toast.dismiss(toastId)
         }
-
+        setIsLoading(false)
 
       } catch (err) {
         console.log(err)
@@ -104,14 +100,14 @@ const CourseCurriculum = () => {
   }
 
   const handleClick = () => {
-    console.log("curriculum before adding lecture",courseCurriculumFormData)
+    console.log("curriculum before adding lecture", courseCurriculumFormData)
     setCourseCurriculumFormData([
       ...courseCurriculumFormData,
       {
         ...courseCurriculumInitialFormData[0]
       }
     ])
-    
+
   }
 
   const handleReplace = async (public_id, index) => {
@@ -134,12 +130,12 @@ const CourseCurriculum = () => {
     }
   }
 
-  const handleDeleteLecture = async(indexToRemove,public_id) => {
+  const handleDeleteLecture = async (indexToRemove, public_id) => {
 
-    courseCurriculumFormData[indexToRemove].videoUrl? await handleReplace(public_id,indexToRemove) : null;
+    courseCurriculumFormData[indexToRemove].videoUrl ? await handleReplace(public_id, indexToRemove) : null;
 
     // console.log("Replaced")
-    const updated = courseCurriculumFormData.filter((_,index) => index !==indexToRemove)
+    const updated = courseCurriculumFormData.filter((_, index) => index !== indexToRemove)
     // console.log("updated filter: ", updated)
     setCourseCurriculumFormData(updated)
   }
@@ -169,7 +165,7 @@ const CourseCurriculum = () => {
                   <Label htmlFor={`freePreview-${index + 1}`}>Free Preview</Label>
                   {/* DELETE LECTURE */}
                   {
-                    index?<Button variant="destructive" onClick={() => handleDeleteLecture(index,courseCurriculumFormData[index]?.public_id)} className="ml-19">Delete Lecture</Button>:null
+                    index ? <Button variant="destructive" onClick={() => handleDeleteLecture(index, courseCurriculumFormData[index]?.public_id)} className="ml-19">Delete Lecture</Button> : null
                   }
                 </CardHeader>
               </CardTitle>
@@ -186,7 +182,7 @@ const CourseCurriculum = () => {
                       </div>
                     </div>
                     :
-                    <Input type='file' accept='video/*' onChange={event => handleVideoInput(event, index)} />
+                    <Input type='file' accept='video/*' onChange={event => handleVideoInput(event, index)} disabled={isloading} />
                 }
 
 

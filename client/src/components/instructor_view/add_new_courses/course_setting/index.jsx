@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { InstructorContext } from '@/context/instructor_context'
+import { UploadingToast } from '@/services/instructor_services/uploading_toast'
 import React, { useContext } from 'react'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -10,7 +11,7 @@ import { Toaster } from 'sonner'
 
 const CourseSetting = () => {
   const { courseLandingFormData, setCourseLandingFormData } = useContext(InstructorContext)
-  
+
   const handleInput = async (event) => {
     const file = event.target.files[0]
     if (!file) return
@@ -19,7 +20,7 @@ const CourseSetting = () => {
     formData.append('file', file) 
 
     // Show "Uploading…" toast
-    const toastId = toast.info('Uploading...', {
+    const toastId = toast.info(<UploadingToast />, {
       progress: 0,
       autoClose: false,
       closeOnClick: false,
@@ -27,16 +28,7 @@ const CourseSetting = () => {
     })
 
     try {
-      const response = await server.post('/media/upload', formData, {
-        onUploadProgress: (progressEvent) => {
-          const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-          toast.update(toastId, {
-            render: `Uploading... ${percent}%`,
-            // the progress bar
-            progress: percent / 100
-          })
-        }
-      })
+      const response = await server.post('/media/upload', formData)
 
       if (response.data.success) {
         setCourseLandingFormData({

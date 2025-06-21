@@ -11,7 +11,7 @@ import { courseCurriculumInitialFormData, courseLandingInitialFormData } from '@
 import CourseLanding from '@/components/instructor_view/add_new_courses/course_landing'
 
 // Lazy loaded components
-// const LazyCourseLanding = lazy(() => import('@/components/instructor_view/add_new_courses/course_landing'))
+const LazyCourseLanding = lazy(() => import('@/components/instructor_view/add_new_courses/course_landing'))
 const LazyCourseSetting = lazy(() => import('@/components/instructor_view/add_new_courses/course_setting'))
 const LazyCourseCurriculum = lazy(() => import('@/components/instructor_view/add_new_courses/curriculum'))
 
@@ -84,7 +84,7 @@ const AddNewCoursePage = () => {
     {
       label: 'Course Landing Page',
       value: 'courseLanding',
-      component: () => <CourseLanding />
+      component: LazyCourseLanding
     },
     {
       label: 'Setting',

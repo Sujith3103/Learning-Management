@@ -24,7 +24,7 @@ const addNewCourse = async (req, res) => {
     const Lecture_Id = [];
 
     for (const item of LectureData) {
-      const lecture_data = await Lecture_.create(item);
+      const lecture_data = await Lecture.create(item);
       Lecture_Id.push(lecture_data._id);
     }
 
