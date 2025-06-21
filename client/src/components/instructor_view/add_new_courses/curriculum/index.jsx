@@ -14,6 +14,7 @@ const CourseCurriculum = () => {
 
 
   const { courseCurriculumFormData, setCourseCurriculumFormData } = useContext(InstructorContext)
+  const {courseLandingFormData, setCourseLandingFormData} = useContext(InstructorContext)
   const [isDisabled, setIsDisabled] = useState(true)
 
   // const handleInput = (event,index) =>{
@@ -37,9 +38,6 @@ const CourseCurriculum = () => {
       ...updatedData[index],
       [field]: event,
     }
-
-    console.log("updated Data: ", updatedData)
-
     setCourseCurriculumFormData(updatedData)
 
   }
@@ -105,22 +103,22 @@ const CourseCurriculum = () => {
     }
   }
 
-  console.log("CourseCurrriculum Form Data : ", courseCurriculumFormData)
-
   const handleClick = () => {
+    console.log("curriculum before adding lecture",courseCurriculumFormData)
     setCourseCurriculumFormData([
       ...courseCurriculumFormData,
       {
-        ...courseCurriculumInitialFormData
+        ...courseCurriculumInitialFormData[0]
       }
     ])
+    
   }
 
   const handleReplace = async (public_id, index) => {
 
     try {
       const response = await server.delete(`/media/delete/${public_id}`)
-      console.log("response for replace :", response)
+      // console.log("response for replace :", response)
       if (response.data.success) {
         console.log("Success")
         const updated = [...courseCurriculumFormData]
@@ -128,7 +126,7 @@ const CourseCurriculum = () => {
           ...updated[index],
           videoUrl: ""
         }
-        console.log(updated, 'updated')
+        // console.log(updated, 'updated')
         setCourseCurriculumFormData(updated)
       }
     } catch (err) {
@@ -140,9 +138,9 @@ const CourseCurriculum = () => {
 
     courseCurriculumFormData[indexToRemove].videoUrl? await handleReplace(public_id,indexToRemove) : null;
 
-    console.log("Replaced")
+    // console.log("Replaced")
     const updated = courseCurriculumFormData.filter((_,index) => index !==indexToRemove)
-    console.log("updated filter: ", updated)
+    // console.log("updated filter: ", updated)
     setCourseCurriculumFormData(updated)
   }
 
@@ -166,7 +164,7 @@ const CourseCurriculum = () => {
               <CardTitle>
                 <CardHeader className='flex items-center gap-3'>
                   <span className='font-semibold '>Lecture {index + 1}</span>
-                  <Input placeholder='Enter Lecture Title' className='max-w-90' onChange={event => handleInput(index, "title", event.target.value)} value={courseCurriculumFormData[index]?.title} />
+                  <Input placeholder='Enter Lecture Title' className='max-w-90' onChange={event => handleInput(index, "title", event.target.value)} value={courseCurriculumFormData[index]?.title || ""} />
                   <Switch id={`freePreview-${index + 1}`} onCheckedChange={event => handleInput(index, "freePreview", event)} value={courseCurriculumFormData[index]?.freePreview} />
                   <Label htmlFor={`freePreview-${index + 1}`}>Free Preview</Label>
                   {/* DELETE LECTURE */}

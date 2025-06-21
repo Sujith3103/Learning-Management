@@ -8,6 +8,6 @@ const router = express.Router()
 router.post('/add',authenticateMiddleware, addNewCourse)
 router.get('/get',authenticateMiddleware,getAllCoursesById)
 router.get('/get/details/:id', getCourseDetails)
-router.put('/update', updateCourseById)
+router.put('/update/:id',authenticateMiddleware, updateCourseById)
 
 module.exports = router

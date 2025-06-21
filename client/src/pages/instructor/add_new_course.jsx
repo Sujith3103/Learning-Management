@@ -5,11 +5,13 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { TabsContent } from '@radix-ui/react-tabs'
 import { Loader } from 'lucide-react'
 import { InstructorContext } from '@/context/instructor_context'
-import { addNewCourse, handleFetchCourseDetails } from '@/services/instructor_services/inedx'
+import { addNewCourse, handleFetchCourseDetails, updateCourseDetails } from '@/services/instructor_services/inedx'
 import { useNavigate, useParams } from 'react-router-dom'
+import { courseCurriculumInitialFormData, courseLandingInitialFormData } from '@/config'
+import CourseLanding from '@/components/instructor_view/add_new_courses/course_landing'
 
 // Lazy loaded components
-const LazyCourseLanding = lazy(() => import('@/components/instructor_view/add_new_courses/course_landing'))
+// const LazyCourseLanding = lazy(() => import('@/components/instructor_view/add_new_courses/course_landing'))
 const LazyCourseSetting = lazy(() => import('@/components/instructor_view/add_new_courses/course_setting'))
 const LazyCourseCurriculum = lazy(() => import('@/components/instructor_view/add_new_courses/curriculum'))
 
@@ -52,17 +54,22 @@ const AddNewCoursePage = () => {
     return true
   }
 
-  const handleSubmit = () => {
 
+
+  const handleSubmit = (id) => {
+
+    console.log("submit ")
+    console.log("ID in handle submit :", id)
+    console.log("Curr : ", courseCurriculumFormData)
     const submit_Data = {
       ...courseLandingFormData,
       Lecture: [...courseCurriculumFormData]
     }
 
-    addNewCourse(submit_Data)
-    navigate(-1)
+    console.log("Submit data:", submit_Data)
+    id ? updateCourseDetails({ id, submit_Data }) : addNewCourse(submit_Data)
 
-    console.log(submit_Data)
+    navigate(-1)
 
   }
 
@@ -77,7 +84,7 @@ const AddNewCoursePage = () => {
     {
       label: 'Course Landing Page',
       value: 'courseLanding',
-      component: LazyCourseLanding
+      component: () => <CourseLanding />
     },
     {
       label: 'Setting',
@@ -88,21 +95,23 @@ const AddNewCoursePage = () => {
 
 
 
-const { id } = useParams();
+  const { id } = useParams();
 
-useEffect(() => {
-  if (id) {
-    console.log("id : ",id)
-    handleFetchCourseDetails({id, setCourseCurriculumFormData, setCourseLandingFormData});
-  }
-}, []); // add id as dependency
-
+  useEffect(() => {
+    if (id && id !== "undefined") {
+      handleFetchCourseDetails({ id, setCourseCurriculumFormData, setCourseLandingFormData });
+    }
+    else {
+      setCourseCurriculumFormData(courseCurriculumInitialFormData);
+      setCourseLandingFormData(courseLandingInitialFormData);
+    }
+  }, [id]); // add id as dependency
 
   return (
     <div className='container px-6 pt-3 '>
       <header className='flex p-5 justify-between items-center border-t'>
         <h1 className='text-3xl font-bold'>Create New Course</h1>
-        <Button disabled={!validFormDate()} onClick={handleSubmit} className='px-10 tracking-wider'>SUBMIT</Button>
+        <Button disabled={!validFormDate()} onClick={() => handleSubmit(id)} className='px-10 tracking-wider'>SUBMIT</Button>
       </header>
 
       <Card className='mt-3'>

@@ -7,8 +7,6 @@ const VideoPlayer = ({ url }) => {
 
   const {courseLandingFormData, setCourseLandingFormData} = useContext(InstructorContext)
 
-  console.log(courseLandingFormData)
-
   const [progressValue, setProgressValue] = useState({})
   const playerRef = useRef()
 
@@ -29,7 +27,6 @@ const VideoPlayer = ({ url }) => {
         controls
         onProgress={(progress) => {
           setProgressValue(progress)
-          console.log(progress)
         }}
 
       // style={

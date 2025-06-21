@@ -1,7 +1,7 @@
 const { authenticateMiddleware } = require("../../middleware/auth_middleware")
 const Course = require("../../models/Course");
 const Lecture = require("../../models/Lecture");
-const Lecture_ = require("../../models/Lecture")
+// const Lecture_ = require("../../models/Lecture")
 const User = require("../../models/User")
 
 const addNewCourse = async (req, res) => {
@@ -71,9 +71,6 @@ const getCourseDetails = async (req, res) => {
         ...courseDetails.toObject(),
         lectures: lectureDetails
       }
-
-      console.log("Updated Course Details : ", updatedCourseDetails)
-
       res.status(200).json({
         success: true,
         message: "course details fetched successfully",
@@ -84,7 +81,7 @@ const getCourseDetails = async (req, res) => {
     console.log(err)
     res.status(500).json({
       success: false,
-      message: "Error in "
+      message: "Error in fetching the course details"
     })
   }
 }
@@ -103,8 +100,6 @@ const getAllCoursesById = async (req, res) => {
       }
     ))
 
-    console.log(updatedData)
-
     res.status(200).json({
       success: true,
       message: "fetched the courses of instructor",
@@ -120,13 +115,59 @@ const getAllCoursesById = async (req, res) => {
   }
 }
 const updateCourseById = async (req, res) => {
+
+  const { id } = req.params
+  const data_to_update = req.body
+  const Lecture_to_update = req.body.Lecture
+  console.log("body : ", req.body)
+
+  const InstructorId = req.user
+
   try {
+    const course_Data = await Course.findById(id)
+
+    if (InstructorId.id === course_Data.instructor.toString()) {
+
+      const updatedCourse = await Course.findByIdAndUpdate(
+        id,
+        { $set: data_to_update },
+        { new: true }
+      );
+      // console.log("lecture to update : ", Lecture_to_update)
+
+      const Lecture_Id = []
+      for (const item of Lecture_to_update) {
+        const is_Lecture = await Lecture.findById(item._id)
+        if (!is_Lecture) {
+          const updatedLecture = await Lecture.create(item)
+          console.log("Updated lecture : ", updatedLecture)
+          Lecture_Id.push(updatedLecture._id)
+        }
+        else {
+          console.log("ID lec : ", item._id)
+          Lecture_Id.push(item._id)
+        }
+
+      }
+      console.log("LEcture id :", Lecture_Id)
+      updatedCourse.lectures = Lecture_Id
+      updatedCourse.save()
+      console.log("updated data: ", updatedCourse)
+
+      if (updatedCourse) {
+        res.status(200).json({
+          success: true,
+          message: "course was updated successfully",
+          data: updatedCourse
+        })
+      }
+    }
 
   } catch (err) {
     console.log(err)
     res.status(500).json({
       success: false,
-      message: "Error in "
+      message: "Error in updating the course"
     })
   }
 }

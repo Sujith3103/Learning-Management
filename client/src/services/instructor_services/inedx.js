@@ -1,4 +1,5 @@
 import server from "@/api/axiosInstance"
+import { courseCurriculumInitialFormData, courseLandingInitialFormData } from "@/config"
 
 
 export const addNewCourse = async (course_data) => {
@@ -10,19 +11,30 @@ export const addNewCourse = async (course_data) => {
 }
 
 export const handleFetchCourseDetails = async ({ id, setCourseCurriculumFormData, setCourseLandingFormData }) => {
-    console.log("ID : ",id)
+    if (!id) {
+        return false
+    }
     const response = await server.get(`/course/get/details/${id}`)
-    console.log(response.data)
     if (response.data.success) {
         const curriculumData = response.data.data.lectures;
 
-        // for(const key in courseCurriculumFormData){
-        //   courseCurriculumFormData[key] = curriculumData[key]
-        // } 
+        const cpycourseLandingInitialFormData = { ...courseLandingInitialFormData };
+
+        for (const item in courseLandingInitialFormData) {
+            cpycourseLandingInitialFormData[item] = response.data.data[item];
+        }   
+
         const landingData = { ...response.data.data }
         delete landingData.lectures
-        setCourseLandingFormData(landingData)
-
+        setCourseLandingFormData(cpycourseLandingInitialFormData)
         setCourseCurriculumFormData(curriculumData)
     }
 }
+
+export const updateCourseDetails = async ({ id, submit_Data }) => {
+
+    console.log("Submitted data : ", submit_Data)
+    const response = await server.put(`/course/update/${id}`, submit_Data)
+
+    console.log(response)
+}   

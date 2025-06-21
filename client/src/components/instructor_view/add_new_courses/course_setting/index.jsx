@@ -10,7 +10,7 @@ import { Toaster } from 'sonner'
 
 const CourseSetting = () => {
   const { courseLandingFormData, setCourseLandingFormData } = useContext(InstructorContext)
-
+  
   const handleInput = async (event) => {
     const file = event.target.files[0]
     if (!file) return

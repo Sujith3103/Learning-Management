@@ -21,8 +21,6 @@ export const authenticateMiddleware = (req, res, next) => {
     const payload = verifyToken(token, process.env.JWT_SECRET);
 
     req.user = payload;
-    console.log("User : ", req.user)
-    
 
     next()
 

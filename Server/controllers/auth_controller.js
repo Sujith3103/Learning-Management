@@ -74,9 +74,7 @@ const loginUser = async (req, res) => {
         })
     }
     
-    console.log("User found : ", findUser)
     const {password:_, ...user} = findUser._doc;
-    console.log(user)
 
     const accessToken = jwt.sign({
         id: user._id,
