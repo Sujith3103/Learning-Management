@@ -34,13 +34,13 @@ const VideoPlayer = ({ url }) => {
       // }
       />
       <div className='absolute flex top-164 left-57 gap-3'>
-        <RotateCcw className='text-amber-50 w-5 cursor-pointer transition-transform duration-100 hover:scale-110' onClick={handleRewind} />
+        {/* <RotateCcw className='text-amber-50 w-5 cursor-pointer transition-transform duration-100 hover:scale-110' onClick={handleRewind} />
         <RotateCw className='text-amber-50 w-5 cursor-pointer transition-transform duration-100 hover:scale-110'
           onClick={() => {
             const current = progressValue.playedSeconds || 0
             playerRef.current?.seekTo(current + 5)
           }}
-        />
+        /> */}
       </div>
     </div>
   )

@@ -111,7 +111,7 @@ const AddNewCoursePage = () => {
     <div className='container px-6 pt-3 '>
       <header className='flex p-5 justify-between items-center border-t'>
         <h1 className='text-3xl font-bold'>Create New Course</h1>
-        <Button disabled={!validFormDate()} onClick={() => handleSubmit(id)} className='px-10 tracking-wider'>SUBMIT</Button>
+        <Button as="" disabled={!validFormDate()} onClick={() => handleSubmit(id)} className='px-10 tracking-wider'>SUBMIT</Button>
       </header>
 
       <Card className='mt-3'>

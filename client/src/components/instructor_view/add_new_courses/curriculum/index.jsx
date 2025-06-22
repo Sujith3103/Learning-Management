@@ -7,18 +7,24 @@ import { Switch } from '@/components/ui/switch'
 import VideoPlayer from '@/components/video_player'
 import { courseCurriculumInitialFormData } from '@/config'
 import { InstructorContext } from '@/context/instructor_context'
+import { sendBulkUploadFilesToServer } from '@/services/instructor_services/inedx'
 import { UploadingToast } from '@/services/instructor_services/uploading_toast'
-import { Loader } from 'lucide-react'
-import React, { useContext, useEffect, useState } from 'react'
+import { Loader, Upload } from 'lucide-react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 
 const CourseCurriculum = () => {
 
-
+  // CONTEXT
   const { courseCurriculumFormData, setCourseCurriculumFormData } = useContext(InstructorContext)
   const { courseLandingFormData, setCourseLandingFormData } = useContext(InstructorContext)
+
+  // STATE
   const [isDisabled, setIsDisabled] = useState(true)
   const [isloading, setIsLoading] = useState(false)
+
+  // REF
+  const bulkUploadInputRef = useRef(null)
 
   // const handleInput = (event,index) =>{
   //   const updatedData = [...courseCurriculumFormData];
@@ -140,18 +146,54 @@ const CourseCurriculum = () => {
     setCourseCurriculumFormData(updated)
   }
 
+const handleBulkUploadInput = async(event) => {  
+  const selectedFiles = Array.from(event.target.files);
+  const formData = new FormData();
+
+  selectedFiles.forEach(selectedFile => {
+    formData.append('file', selectedFile);
+  });
+
+  const response = await sendBulkUploadFilesToServer(formData)
+
+  console.log(courseCurriculumFormData)
+
+for (const item of response.data.data) {
+  
+  const fileObject = { ...courseCurriculumInitialFormData[0] }; // 👈 clone!
+  fileObject.videoUrl = item.url;
+  fileObject.public_id = item.public_id;
+
+  setCourseCurriculumFormData( prev => [...prev, fileObject]);
+}
+
+};
+
+
   useEffect(() => {
     const lastLecture = courseCurriculumFormData.at(-1)
     const isLastLectureVideoUploaded = !!lastLecture?.videoUrl
     setIsDisabled(!isLastLectureVideoUploaded)
+    console.log("currciculum updated : ",courseCurriculumFormData)
   }, [courseCurriculumFormData])
 
   return (
     <div>
       <Card>
-        <CardTitle>
-          <CardHeader>Create Course Curriculumn</CardHeader>
-        </CardTitle>
+        <CardHeader className="flex flex-row justify-between items-center">
+          <CardTitle className="text-xl font-bold">
+            Create Course Curriculum
+          </CardTitle>
+          <div>
+            <Input type="file"  accept='video/*' className="hidden" id="bulkUpload" ref={bulkUploadInputRef} multiple onChange={handleBulkUploadInput}/>
+            {/* this opens the input dialogue */}
+            <Button as="label" htmlFor="bulkUpload" variant="outline" onClick={() => bulkUploadInputRef.current?.click()}>
+              <Upload className="mr-2 w-4 h-4" />
+              Bulk Upload
+            </Button>
+          </div>
+        </CardHeader>
+
         <CardContent>
           <Button onClick={handleClick} disabled={isDisabled}>Add Lecture</Button>
 

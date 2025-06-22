@@ -39,3 +39,10 @@ export const updateCourseDetails = async ({ id, submit_Data }) => {
     console.log(response)
 }   
 
+export const sendBulkUploadFilesToServer = async(formData) => {
+
+    const response = await server.post('/media/bulk-upload',formData)
+    console.log(response)
+
+    return response
+} 
