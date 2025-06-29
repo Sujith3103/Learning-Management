@@ -1,8 +1,9 @@
 import InstructorDashBoard from '@/components/instructor_view/dashboard'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList } from '@/components/ui/tabs'
+import { AuthContext } from '@/context/auth_context'
 import { BarChart, Book, LogOut, Loader } from 'lucide-react'
-import React, { lazy, Suspense, useState } from 'react'
+import React, { lazy, Suspense, useContext, useState } from 'react'
 
 // Lazy loaded component
 const LazyInstructorCourses = lazy(() => import('@/components/instructor_view/courses'))
@@ -10,6 +11,8 @@ const LazyInstructorCourses = lazy(() => import('@/components/instructor_view/co
 const InstructorDashBoardPage = () => {
 
   const [activeTab, setActiveTab] = useState('dashboard')
+
+  const { auth, setAuth } = useContext(AuthContext)
 
   const menuItems = [
     {
@@ -25,7 +28,7 @@ const InstructorDashBoardPage = () => {
       render: () => (
         <Suspense fallback={<div className="p-5 text-gray-500"><Loader className="animate-spin inline-block mr-2" />Loading Courses...</div>}>
           <LazyInstructorCourses />
-          
+
         </Suspense>
       )
     },
@@ -38,7 +41,10 @@ const InstructorDashBoardPage = () => {
   ]
 
   const handleLogout = () => {
-    // Add your logout logic here
+    sessionStorage.removeItem("accessToken");
+    setAuth({isAuthenticated: false,
+      user: null,
+      accessToken: null})
   }
 
   return (
