@@ -1,55 +1,55 @@
 export const signUpFormControls = [
-    {
-        name: 'userName',
-        label: 'UserName',
-        placeholder: 'Enter your username',
-        type: 'text',
-        componentType: 'input',
-    },
-    {
-        name: 'userEmail',
-        label: 'UserEmail',
-        placeholder: 'Enter your email',
-        type: 'text',
-        componentType: 'input',
-    },
-    {
-        name: 'password',
-        label: 'password',
-        placeholder: 'Enter your password',
-        type: 'password',
-        componentType: 'input',
-    },
+  {
+    name: 'userName',
+    label: 'UserName',
+    placeholder: 'Enter your username',
+    type: 'text',
+    componentType: 'input',
+  },
+  {
+    name: 'userEmail',
+    label: 'UserEmail',
+    placeholder: 'Enter your email',
+    type: 'text',
+    componentType: 'input',
+  },
+  {
+    name: 'password',
+    label: 'password',
+    placeholder: 'Enter your password',
+    type: 'password',
+    componentType: 'input',
+  },
 ]
 export const signInFormControls = [
-    {
-        name: 'userEmail',
-        label: 'userEmail',
-        placeholder: 'Enter your email',
-        type: 'text',
-        componentType: 'input',
-    },
-    {
-        name: 'password',
-        label: 'UserPassword',
-        placeholder: 'Enter your password',
-        type: 'password',
-        componentType: 'input',
-    },
+  {
+    name: 'userEmail',
+    label: 'userEmail',
+    placeholder: 'Enter your email',
+    type: 'text',
+    componentType: 'input',
+  },
+  {
+    name: 'password',
+    label: 'UserPassword',
+    placeholder: 'Enter your password',
+    type: 'password',
+    componentType: 'input',
+  },
 ]
 
 export const initialSignInFormData = [
-    {
-        userEmail: "",
-        password: "",
-    }
+  {
+    userEmail: "",
+    password: "",
+  }
 ]
 export const initialSignUpFormData = [
-    {
-        userName: "",
-        UserEmail: "",
-        password: "",
-    }
+  {
+    userName: "",
+    UserEmail: "",
+    password: "",
+  }
 ]
 
 
@@ -177,8 +177,8 @@ export const courseCurriculumInitialFormData = [
 
 export const initialCourseData = [
   {
-    title : "",
-    students : [],
+    title: "",
+    students: [],
     revenue: "",
   }
 ]
@@ -195,3 +195,10 @@ export const filterOptions = {
   level: courseLevelOptions,
   primaryLanguage: languageOptions,
 };
+
+export const initialFilterOptions = {
+  category: ["web-development"],
+  level: [],
+  primaryLanguage: []
+};
+

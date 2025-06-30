@@ -11,6 +11,7 @@ import InstructorDashBoardPage from './pages/instructor'
 import AddNewCoursePage from './pages/instructor/add_new_course'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import StudentViewCourses from './pages/student/courses'
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
         <Route path='/' element={<RouteGuard element={<StudentViewCommonLayout />} />}>
           <Route path="" element={<StudentHomePage />} />
           <Route path="home" element={<StudentHomePage />} />
+          <Route path="courses" element={<StudentViewCourses />} />
         </Route>
         <Route path='*' element={<NotFound />} />
       </Routes>

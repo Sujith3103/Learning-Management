@@ -10,7 +10,7 @@ const StudentViewCommonLayout = () => {
         <div className='flex gap-6 items-center ml-5'>
           <GraduationCap className='h-8 w-8' />
           <Link className='font-extrabold text-2xl' to={"/home"}>LMS LEARN</Link>                                       
-          <Link to="/explore" className="font-semibold hover:underline">
+          <Link to="/courses" className="font-semibold hover:underline">
             Explore Courses
           </Link>
 
