@@ -11,7 +11,7 @@ const RouteGuard = ({element}) => {
     const user = auth.user || {};
     const authenticated = user && auth.isAuthenticated;
 
-    console.log("authenticated: ", authenticated)
+    // console.log("authenticated: ", authenticated)
 
     if (!authenticated && !location.pathname.includes("/auth")) {
         //return <Navigate to="/auth/login" state={{ from: location }} replace />;

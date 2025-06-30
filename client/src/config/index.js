@@ -197,8 +197,8 @@ export const filterOptions = {
 };
 
 export const initialFilterOptions = {
-  category: ["web-development"],
+  category: [],
   level: [],
-  primaryLanguage: []
+  language: []
 };
 
