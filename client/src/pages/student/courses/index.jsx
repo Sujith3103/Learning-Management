@@ -17,7 +17,7 @@ const StudentViewCourses = () => {
 
     const handleCheck = ({ checked, value = "", filterType = "", }) => {
 
-        console.log("value : ",value)
+        // console.log("value : ",value)
         let updatedCategory = [...selectedCategories[filterType]]
   
         if (checked) {
@@ -26,7 +26,7 @@ const StudentViewCourses = () => {
         else {
             updatedCategory = updatedCategory.filter(c => c !== value)
         }
-        console.log("updated cat : ",updatedCategory)
+        // console.log("updated cat : ",updatedCategory)
         setSelectedCategories(prev => ({
             ...prev,
            [filterType] : updatedCategory
@@ -59,9 +59,9 @@ useEffect(() => {
 }, [searchParams])
 
 
-useEffect(() => {
-    console.log("selected checkbox :", selectedCategories)
-}, [selectedCategories])
+// useEffect(() => {
+//     console.log("selected checkbox :", selectedCategories)
+// }, [selectedCategories])
 
 return (
     <div className='px-10 flex flex-col gap-y-5'>

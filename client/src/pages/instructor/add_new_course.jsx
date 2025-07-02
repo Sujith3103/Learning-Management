@@ -57,16 +57,10 @@ const AddNewCoursePage = () => {
 
 
   const handleSubmit = (id) => {
-
-    console.log("submit ")
-    console.log("ID in handle submit :", id)
-    console.log("Curr : ", courseCurriculumFormData)
     const submit_Data = {
       ...courseLandingFormData,
       Lecture: [...courseCurriculumFormData]
     }
-
-    console.log("Submit data:", submit_Data)
     id ? updateCourseDetails({ id, submit_Data }) : addNewCourse(submit_Data)
 
     navigate(-1)

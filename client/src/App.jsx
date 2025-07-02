@@ -12,6 +12,7 @@ import AddNewCoursePage from './pages/instructor/add_new_course'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import StudentViewCourses from './pages/student/courses'
+import CourseDetails from './pages/student/course_details'
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
           <Route path="" element={<StudentHomePage />} />
           <Route path="home" element={<StudentHomePage />} />
           <Route path="courses" element={<StudentViewCourses />} />
+          <Route path="courses/details/:id" element={<CourseDetails />} />
         </Route>
         <Route path='*' element={<NotFound />} />
       </Routes>

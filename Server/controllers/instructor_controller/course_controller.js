@@ -55,7 +55,15 @@ const getCourseDetails = async (req, res) => {
   const { id } = req.params
 
   try {
-    const courseDetails = await Course.findById(id)
+    const courseDetails = await Course.findById(id).populate([
+      {
+        path: "instructor",
+        select: "userName userEmail"
+      },
+      {
+        path: "lectures",
+      }
+    ])
 
     if (courseDetails) {
 
@@ -145,6 +153,7 @@ const updateCourseById = async (req, res) => {
         }
         else {
           console.log("ID lec : ", item._id)
+          const updated_lecture = await Lecture.findByIdAndUpdate(item._id,item)
           Lecture_Id.push(item._id)
         }
 

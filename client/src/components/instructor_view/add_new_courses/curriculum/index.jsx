@@ -203,7 +203,7 @@ for (const item of response.data.data) {
                 <CardHeader className='flex items-center gap-3'>
                   <span className='font-semibold '>Lecture {index + 1}</span>
                   <Input placeholder='Enter Lecture Title' className='max-w-90' onChange={event => handleInput(index, "title", event.target.value)} value={courseCurriculumFormData[index]?.title || ""} />
-                  <Switch id={`freePreview-${index + 1}`} onCheckedChange={event => handleInput(index, "freePreview", event)} value={courseCurriculumFormData[index]?.freePreview} />
+                  <Switch id={`freePreview-${index + 1}`} checked={data.freePreview} onCheckedChange={event => handleInput(index, "freePreview", event)} value={courseCurriculumFormData[index]?.freePreview} />
                   <Label htmlFor={`freePreview-${index + 1}`}>Free Preview</Label>
                   {/* DELETE LECTURE */}
                   {

@@ -20,10 +20,14 @@ export const Student_getAllCourses = async (req, res) => {
 
         console.log("Final filter: ", filter);
 
-        const courses = await Course.find(filter).populate({
-            path: "instructor",
-            select: "userName userEmail"
-        });
+        let courses
+        if (category || level || language) {
+                courses = await Course.find(filter).populate({
+                path: "instructor",
+                select: "userName userEmail"
+            });
+        }
+
 
         console.log(courses)
 
@@ -40,3 +44,4 @@ export const Student_getAllCourses = async (req, res) => {
         });
     }
 };
+

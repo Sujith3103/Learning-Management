@@ -28,3 +28,10 @@ export const getAllCourses = async (searchParams) => {
     const response = await server.get(`/student/course/get?${query.toString()}`);
     return response.data.data;
 };
+
+export const getCourseById = async (id) => {
+    const response = await server.get(`/course/get/details/${id}`)
+    console.log("response : ",response.data.data)
+    return response
+}
+ 
