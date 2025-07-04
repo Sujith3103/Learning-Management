@@ -1,9 +1,11 @@
 import { GraduationCap, TvMinimalPlay } from 'lucide-react'
 import React from 'react'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { Button } from '../ui/button'
 
 const StudentViewCommonLayout = () => {
+
+  const navigate = useNavigate()
   return (
     <div>
       <div className='w-full h-20 flex justify-between border-b-3 border-t-3 mt-2 sticky'>
@@ -15,7 +17,7 @@ const StudentViewCommonLayout = () => {
           </Link>
 
         </div>
-        <div className='flex gap-6 items-center mr-5'>
+        <div className='flex gap-6 items-center mr-5 cursor-pointer' onClick={ () => navigate('/student-courses')}>
           <span className='font-extrabold text-2xl'>My Courses</span>
           <TvMinimalPlay className='h-8 w-8' />
           <Button className="hover:bg-gray-500 transition">Sign Out</Button>

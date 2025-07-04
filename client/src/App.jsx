@@ -15,6 +15,7 @@ import StudentViewCourses from './pages/student/courses'
 import CourseDetails from './pages/student/course_details'
 import PaypalCapturePage from './pages/student/paypal_capture_page'
 import PaypalPaymentReturnPage from './pages/student/payment-return'
+import StudentCourses from './pages/student/student_courses'
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
           <Route path="courses" element={<StudentViewCourses />} />
           <Route path="courses/details/:id" element={<CourseDetails />} />
           <Route path="payment-return" element={<PaypalPaymentReturnPage />} />
+          <Route path="student-courses" element={<StudentCourses />} />
           {/* <Route path="student-courses" element={<StudentCoursesPage />} /> */}
         </Route>
         <Route path='*' element={<NotFound />} />

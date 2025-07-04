@@ -52,20 +52,14 @@ export const Student_BoughtCourses = async(req,res) => {
     console.log("user for my course : ",user)
 
     try{
-        const user_Courses = await StudentCourse.findById(user.id)
-
-        if(!user_Courses){
-            return res.status(404).json({
-                success : false,
-                message : "Error in fetching user courses"
-            })
-        }
+        const user_Courses = await StudentCourse.findOne({userId : user.id})
 
         console.log("user courses : ",user_Courses)
 
         res.status(200).json({
             success : true,
-            message : "user courses fetched successfully"
+            message : "user courses fetched successfully",
+            user_Courses
         })
 
     }catch(err){

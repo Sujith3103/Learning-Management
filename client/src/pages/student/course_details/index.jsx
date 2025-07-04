@@ -6,7 +6,6 @@ import VideoPlayer from "@/components/video_player";
 import { onGooglePayButtonClicked } from "@/config/payment_gateway";
 import { AuthContext } from "@/context/auth_context";
 import { createPaymentService, getCourseById } from "@/services";
-import GooglePayButton from "@google-pay/button-react";
 import { CircleCheck, CirclePlay, Globe, Lock } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";

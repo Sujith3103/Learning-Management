@@ -53,3 +53,10 @@ export const captureAndFinalizePaymentService = async (paymentId,payerId,orderId
     console.log("capture: ", data)
     return data;
 }
+
+export const userBoughtCourses = async() => {
+    const response = await server.get('/student/mycourse/get-mycourses')
+    console.log(response.data.user_Courses)
+
+    return response.data.user_Courses
+}
