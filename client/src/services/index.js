@@ -44,8 +44,12 @@ export const createPaymentService = async (formData) => {
     console.log("create: ", data)
     return data
 }
-export const captureAndFinalizePaymentService = async (formData) => {
-    const { data } = await server.post('/student/order/capture', formData);
+export const captureAndFinalizePaymentService = async (paymentId,payerId,orderId) => {
+    const { data } = await server.post('/student/order/capture', {
+        paymentId,
+        payerId,
+        orderId
+    });
     console.log("capture: ", data)
     return data;
 }

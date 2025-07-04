@@ -20,7 +20,6 @@ const CourseDetails = () => {
     const { auth } = useContext(AuthContext)
 
     const handleCreatePayment = async () => {
-        console.log("user : ", auth.user)
         try {
             const paymentPayload = {
                 userId: auth?.user?.id,

@@ -90,6 +90,7 @@ const createOrder = async (req, res) => {
 const capturePaymentAndFinalizeOrder = async (req, res) => {
     try {
         const { paymentId, payerId, orderId } = req.body;
+        console.log("req.body is: ", req.body);
 
         let order = await Order.findById(orderId);
         if (!order) {

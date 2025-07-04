@@ -23,7 +23,9 @@ app.use('/api/auth', auth_route)
 app.use('/api/media', mediaRoute)
 app.use('/api/course', courseRoute)
 app.use('/api/student/course',studentRoute )
+app.use('/api/student/mycourse', studentRoute)
 app.use('/api/student/order',studentViewOrderRoutes)
+
     
 
 
