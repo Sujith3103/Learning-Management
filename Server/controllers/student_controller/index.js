@@ -22,20 +22,35 @@ export const Student_getAllCourses = async (req, res) => {
         console.log("Final filter: ", filter);
 
         let courses
+        const course_Ids = []
+        const idSet = new Set(course_Ids)
         if (category || level || language) {
-                courses = await Course.find(filter).populate({
+            courses = await Course.find(filter).populate({
                 path: "instructor",
                 select: "userName userEmail"
             });
+            courses.map(c => idSet.add(c._id.toString()))
         }
 
+        console.log("course id's: ", course_Ids)
 
-        console.log(courses)
 
+        const my_Courses = await StudentCourse.findOne({ userId: req.user.id })
+        console.log("before updating : ", my_Courses.courses)
+        let updated_My_Courses = [...my_Courses.courses]
+        console.log("my courses : ", updated_My_Courses)
+
+        const Bought_Courses = updated_My_Courses.filter(c => idSet.has(c.courseId))
+        console.log("ID : ", idSet)
+        console.log("Bought Courses : ", Bought_Courses)
+        // const updated_My_Courses = my_Courses.filter(val => )
+
+
+        // console.log(courses)
         return res.status(200).json({
             success: true,
             message: "Courses fetched successfully",
-            data: courses
+            data: {courses,boughtCourses: Bought_Courses}
         });
     } catch (error) {
         console.error("Error fetching courses:", error);
@@ -46,26 +61,26 @@ export const Student_getAllCourses = async (req, res) => {
     }
 };
 
-export const Student_BoughtCourses = async(req,res) => {
-    const {user} = req
+export const Student_BoughtCourses = async (req, res) => {
+    const { user } = req
 
-    console.log("user for my course : ",user)
+    console.log("user for my course : ", user)
 
-    try{
-        const user_Courses = await StudentCourse.findOne({userId : user.id})
+    try {
+        const user_Courses = await StudentCourse.findOne({ userId: user.id })
 
-        console.log("user courses : ",user_Courses)
+        console.log("user courses : ", user_Courses)
 
         res.status(200).json({
-            success : true,
-            message : "user courses fetched successfully",
+            success: true,
+            message: "user courses fetched successfully",
             user_Courses
         })
 
-    }catch(err){
+    } catch (err) {
         console.log(err)
         res.status(500).json({
-            success : false,
+            success: false,
             message: "error in getting my-course"
         })
     }

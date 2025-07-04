@@ -16,6 +16,7 @@ import CourseDetails from './pages/student/course_details'
 import PaypalCapturePage from './pages/student/paypal_capture_page'
 import PaypalPaymentReturnPage from './pages/student/payment-return'
 import StudentCourses from './pages/student/student_courses'
+import CourseProgress from './pages/student/course_progress'
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
           <Route path="home" element={<StudentHomePage />} />
           <Route path="courses" element={<StudentViewCourses />} />
           <Route path="courses/details/:id" element={<CourseDetails />} />
+          <Route path="course-progress/:id" element={<CourseProgress />} />
           <Route path="payment-return" element={<PaypalPaymentReturnPage />} />
           <Route path="student-courses" element={<StudentCourses />} />
           {/* <Route path="student-courses" element={<StudentCoursesPage />} /> */}

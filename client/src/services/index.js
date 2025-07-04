@@ -23,8 +23,6 @@ export const getAllCourses = async (searchParams) => {
     if (levelParams.length > 0) query.set("level", levelParams.join(","));
     if (languageParams.length > 0) query.set("language", languageParams.join(","));
 
-    console.log("final query string:", query.toString());
-
     const response = await server.get(`/student/course/get?${query.toString()}`);
     return response.data.data;
 };

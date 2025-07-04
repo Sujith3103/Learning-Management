@@ -4,7 +4,7 @@ const { authenticateMiddleware } = require('../../middleware/auth_middleware')
 
 const router = express.Router()
 
-router.get('/get',Student_getAllCourses)
+router.get('/get',authenticateMiddleware,Student_getAllCourses)
 
 router.get('/get-mycourses',authenticateMiddleware,Student_BoughtCourses)
 

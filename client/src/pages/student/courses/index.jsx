@@ -4,13 +4,16 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Skeleton } from '@/components/ui/skeleton'
 import { courseCategories, courseLevelOptions, initialFilterOptions, languageOptions } from '@/config'
+import { StudentContext } from '@/context/student_context'
 import { getAllCourses } from '@/services'
 
 import { ArrowUpDownIcon, FilterIcon } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 const StudentViewCourses = () => {
+
+    const {studentBoughtCoursesData , setstudentBoughtCoursesData} = useContext(StudentContext)
 
     const [courseData, setCourseData] = useState([])
     const [selectedCategories, setSelectedCategories] = useState(initialFilterOptions)
@@ -40,7 +43,9 @@ const StudentViewCourses = () => {
     useEffect(() => {
         async function fetchFilteredCourses() {
             const response = await getAllCourses(searchParams); // or your query object
-            setCourseData(response);
+            setCourseData(response.courses);
+            setstudentBoughtCoursesData(response.boughtCourses)
+            console.log(response)
         }
 
         fetchFilteredCourses();
@@ -135,7 +140,7 @@ const StudentViewCourses = () => {
                             ))
                         ) : (
                             // fallback skeleton cards
-                            <div className="flex flex-col gap-5 w-full p-5">
+                            <div className="flex flex-col gap-5 w-full p-5" >
                                 {Array.from({ length: 3 }).map((_, index) => (
                                     <div
                                         key={index}
