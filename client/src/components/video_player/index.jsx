@@ -18,11 +18,12 @@ const VideoPlayer = ({ url }) => {
   }
 
   return (
-    <div >
+    <div  className="w-[100%] h-full rounded-md overflow-hidden">
       <ReactPlayer
+        className={"rounded-2xl"}
         ref={playerRef}
         url={url}
-        width={"90%"}
+        width={"100%"}
         height={"100%"}
         controls
         onProgress={(progress) => {
@@ -33,7 +34,7 @@ const VideoPlayer = ({ url }) => {
 
       // }
       />
-      <div className='absolute flex top-164 left-57 gap-3'>
+      <div className='absolute flex top-164 left-57 gap-3 '>
         {/* <RotateCcw className='text-amber-50 w-5 cursor-pointer transition-transform duration-100 hover:scale-110' onClick={handleRewind} />
         <RotateCw className='text-amber-50 w-5 cursor-pointer transition-transform duration-100 hover:scale-110'
           onClick={() => {

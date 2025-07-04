@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 
 export const registerService = async (formData) => {
 
-    const  {data}  = await server.post('/auth/register', {
+    const { data } = await server.post('/auth/register', {
         ...formData,
         role: 'student' // Default role set to student
     });
@@ -30,8 +30,22 @@ export const getAllCourses = async (searchParams) => {
 };
 
 export const getCourseById = async (id) => {
-    const response = await server.get(`/course/get/details/${id}`)
-    console.log("response : ",response.data.data)
-    return response
+
+    if (id) {
+        const response = await server.get(`/course/get/details/${id}`)
+        console.log("response : ", response.data.data)
+        return response
+    }
+
 }
- 
+
+export const createPaymentService = async (formData) => {
+    const { data } = await server.post('/student/order/create', formData)
+    console.log("create: ", data)
+    return data
+}
+export const captureAndFinalizePaymentService = async (formData) => {
+    const { data } = await server.post('/student/order/capture', formData);
+    console.log("capture: ", data)
+    return data;
+}
