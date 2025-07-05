@@ -44,7 +44,7 @@ const StudentViewCourses = () => {
         async function fetchFilteredCourses() {
             const response = await getAllCourses(searchParams); // or your query object
             setCourseData(response.courses);
-            setstudentBoughtCoursesData(response.boughtCourses)
+            // setstudentBoughtCoursesData(response.boughtCourses)
             console.log(response)
         }
 

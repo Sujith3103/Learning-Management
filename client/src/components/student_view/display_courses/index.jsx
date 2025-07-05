@@ -14,6 +14,7 @@ export const DisplayCourseData = ({ courseData, }) => {
         const idSet = new Set()
         studentBoughtCoursesData.map(c => idSet.add(c.courseId))
         console.log(idSet,courseData._id)
+        console.log("studentBough : ",studentBoughtCoursesData)
         if (idSet.has(courseData._id) ){
             navigate(`/course-progress/${courseData._id}`)
         }

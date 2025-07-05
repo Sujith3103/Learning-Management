@@ -5,18 +5,25 @@ import { Skeleton } from "@/components/ui/skeleton";
 import VideoPlayer from "@/components/video_player";
 import { onGooglePayButtonClicked } from "@/config/payment_gateway";
 import { AuthContext } from "@/context/auth_context";
+import { StudentContext } from "@/context/student_context";
 import { createPaymentService, getCourseById } from "@/services";
 import { CircleCheck, CirclePlay, Globe, Lock } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const CourseDetails = () => {
+
+    const navigate = useNavigate()
+
+    const { auth } = useContext(AuthContext)
+    const { studentBoughtCoursesData, setstudentBoughtCoursesData } = useContext(StudentContext)
+
     const [courseData, setCourseData] = useState(null);
     const [isDialogOpen, setIsDialogOpen] = useState(false)
     const [dialogUrl, setDialogUrl] = useState(null)
 
     const [approvalUrl, setApprovalUrl] = useState("")
-    const { auth } = useContext(AuthContext)
+
 
     const handleCreatePayment = async () => {
         try {
@@ -55,50 +62,17 @@ const CourseDetails = () => {
 
 
 
-
-
-    // const paymentRequest = {
-    //     apiVersion: 2,
-    //     apiVersionMinor: 0,
-    //     allowedPaymentMethods: [
-    //         {
-    //             type: 'CARD',
-    //             parameters: {
-    //                 allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
-    //                 allowedCardNetworks: ['VISA', 'MASTERCARD'],
-    //             },
-    //             tokenizationSpecification: {
-    //                 type: 'PAYMENT_GATEWAY',
-    //                 parameters: {
-    //                     gateway: 'stripe', // or your actual gateway
-    //                     gatewayMerchantId: '    ', // replace with yours
-    //                 },
-    //             },
-    //         },
-    //     ],
-    //     merchantInfo: {
-    //         merchantId: 'BCR2DN6TXXXXXX', // test merchant id from Google
-    //         merchantName: 'Demo Merchant'
-    //     },
-    //     transactionInfo: {
-    //         totalPriceStatus: 'FINAL',
-    //         totalPriceLabel: 'Total',
-    //         totalPrice: `50`, // your course price
-    //         currencyCode: 'USD',
-    //         countryCode: 'US',
-    //     },
-    // };
-
-
     const course_title = courseData?.title ? courseData.title.split(" ") : ["", ""];
-
-
 
     const handleClick = (data) => {
         if (data.freePreview) {
             setDialogUrl(data.videoUrl)
             setIsDialogOpen(prev => !prev)
         }
+    }
+
+    const checkBoughtCourses = (id) => {
+        console.log("Student bought : ", studentBoughtCoursesData)
     }
 
     // building the items
@@ -126,10 +100,18 @@ const CourseDetails = () => {
             }
         }
         fetchData();
+        checkBoughtCourses(id)
     }, [id]);
 
 
-
+    //to check if the course is already bought
+    useEffect(() => {
+        const exists = studentBoughtCoursesData.some(course => course.courseId === id);
+        console.log("Exists: ", exists);  // true or false
+        if(exists){
+             navigate(`/course-progress/${id}`)
+        }
+    }, [id, studentBoughtCoursesData])
 
     //SKELETON
     if (!courseData) {

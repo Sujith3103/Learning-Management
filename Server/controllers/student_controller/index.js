@@ -61,15 +61,41 @@ export const Student_getAllCourses = async (req, res) => {
     }
 };
 
+export const Student_getAll_BoughtCourses = async (req,res) => {
+
+    try{
+
+        const {user} = req
+        console.log("works")
+        const boughtCourses = await StudentCourse.findOne({userId : user.id})
+        console.log("all bought courses : ",boughtCourses)
+
+        if(boughtCourses){
+            return res.status(200).json({
+                success: true,
+                message: "fetched all courses",
+                data : boughtCourses
+            })
+        }
+
+    }catch(err){
+        console.log(err)
+        res.status(500).json({
+            success : false,
+            message : "error in getting all student bought courses"
+        })
+    }
+}
+
 export const Student_BoughtCourses = async (req, res) => {
     const { user } = req
 
-    console.log("user for my course : ", user)
+    // console.log("user for my course : ", user)
 
     try {
         const user_Courses = await StudentCourse.findOne({ userId: user.id })
 
-        console.log("user courses : ", user_Courses)
+        // console.log("user courses : ", user_Courses)
 
         res.status(200).json({
             success: true,

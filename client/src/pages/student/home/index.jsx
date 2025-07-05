@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import banner from '../../../../public/banner-img.png'
 import { courseCategories } from '@/config'
 import { Button } from '@/components/ui/button'
+import { StudentContext } from '@/context/student_context'
 
 const StudentHomePage = () => {
   return (
@@ -25,7 +26,7 @@ const StudentHomePage = () => {
             courseCategories.map(item =>
               <Button key={item.id} variant="outline">{item.label}</Button>
             )
-          } 
+          }
         </div>
       </div>
 

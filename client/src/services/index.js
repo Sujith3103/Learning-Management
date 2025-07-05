@@ -58,3 +58,9 @@ export const userBoughtCourses = async() => {
 
     return response.data.user_Courses
 }
+
+export const getAllUserBoughtCourses = async() => {
+    const response  = await server.get('/student/mycourse/get-all-mycourses')
+    console.log(response)
+    return response.data.data.courses
+}
